@@ -1,15 +1,17 @@
-{% set version = "1.1.0" %}
+{% set name = "libpostal" %}
+{% set version = "1.1" %}
 
 package:
-  name: libpostal
+  name: {{ name }}
   version: "{{ version }}"
 
 source:
-  url: https://github.com/openvenues/libpostal/archive/refs/tags/v1.1.tar.gz
-  sha256: a93ae1130b102c61c8f55433bdd55bcd6ddb617102c1ee7aee767b86eef1e176
+  url: https://github.com/openvenues/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 8cc473a05126895f183f2578ca234428d8b58ab6fadf550deaacd3bd0ae46032
 
 build:
-  number: 3
+  number: 0
+  # no conda-based autoconf on Windows
   skip: True  # [win]
 
 requirements:
@@ -41,6 +43,13 @@ about:
   license_family: MIT
   license_file: LICENSE
   summary: C library for parsing/normalizing street addresses around the world.
+  description: |
+    libpostal is a C library for parsing/normalizing street addresses
+    around the world using statistical NLP and open data. The goal of
+    this project is to understand location-based strings in every
+    language, everywhere.
+  doc_url: https://github.com/openvenues/libpostal
+  dev_url: https://github.com/openvenues/libpostal
 
 extra:
   recipe-maintainers:
