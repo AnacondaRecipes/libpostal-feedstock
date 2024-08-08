@@ -4,7 +4,7 @@ set -ex
 # sse2 seems to be being enabled on ARM64
 conf_args=()
 case "$(uname -m)" in
-arm64|aarch64)
+arm64|aarch64|x390x)
     conf_args+=( --disable-sse2 )
     ;;
 esac
