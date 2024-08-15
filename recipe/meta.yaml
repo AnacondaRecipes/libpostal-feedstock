@@ -6,9 +6,24 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://github.com/openvenues/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 8cc473a05126895f183f2578ca234428d8b58ab6fadf550deaacd3bd0ae46032
-
+  - url: https://github.com/openvenues/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+    sha256: 8cc473a05126895f183f2578ca234428d8b58ab6fadf550deaacd3bd0ae46032
+    # These are the data files that {src,bin}/libpostal_data would
+    # download - remember that conda will shift the contents of a
+    # single folder tarball up one level so parser and
+    # language_classifier are put a level further down to counteract
+    # that
+  - url: https://github.com/openvenues/libpostal/releases/download/v1.0.0/libpostal_data.tar.gz
+    sha256: d2ec50587bf3a7e46e18e5dcde32419134266f90774e3956f2c2f90d818ff9a1
+    folder: __upstream/share/libpostal_data/libpostal
+    # parser.tar.gz is downloaded in 12 chunks normally but the whole
+    # 720MB file is available to download directly
+  - url: https://github.com/openvenues/libpostal/releases/download/v1.0.0/parser.tar.gz
+    sha256: 7194e9b0095f71aecb861269f675e50703e73e352a0b9d41c60f8d8ef5a03624
+    folder: __upstream/share/libpostal_data/libpostal/address_parser
+  - url: https://github.com/openvenues/libpostal/releases/download/v1.0.0/language_classifier.tar.gz
+    sha256: 16a6ecb6d37e7e25d8fe514255666852ab9dbd4d9cc762f64cf1e15b4369a277
+    folder: __upstream/share/libpostal_data/libpostal/language_classifier
 build:
   number: 1
   # no conda-based autoconf on Windows
