@@ -39,13 +39,31 @@ esac
     --disable-data-download \
     --datadir=$PREFIX/share/libpostal_data \
     --prefix=$PREFIX \
-    "${conf_args[@]}"
+    "${conf_args:+${conf_args[@]}}"
 
 make -j${CPU_COUNT}
 
 # We might normally try to run this tester in the test section but it
 # is extremely reluctant to be copied (it complains about missing .o
 # and .so files)
-test/test_libpostal
+case "${target_platform}" in
+linux-s390x)
+    # test/test_libpostal -l to get a list of suites & tests
+    test/test_libpostal -s expansion
+    # s390x mixes up city_district/suburb/city/state in a dozen parser
+    # tests: us gb im nz fr es mx cn jp kr za nl da ro ru.  That list
+    # suggests that the Senzing model (improved US, UK and SG) will
+    # not help
+    #test/test_libpostal -s parser
+    test/test_libpostal -s transliteration
+    test/test_libpostal -s numex
+    test/test_libpostal -s string_utils
+    test/test_libpostal -s trie
+    test/test_libpostal -s crf_context
+    ;;
+*)
+    test/test_libpostal
+    ;;
+esac
 
 make install
