@@ -10,22 +10,23 @@ set -eu
 # below.
 
 mkdir -p ${PREFIX}/share/libpostal_data
-mv __upstream/share/libpostal_data/libpostal ${PREFIX}/share/libpostal_data
+# We might like to use install rather than mv/cp but this is a
+# hierarchy of files which install doesn't handle
+cp -rp __upstream/share/libpostal_data/libpostal ${PREFIX}/share/libpostal_data
 
 # XXX if the data_version file is wrong it will delete all of the
 # libpostal data
-for vf in data_version ; do
-    vfile=${PREFIX}/share/libpostal_data/libpostal/${vf}
-    # Where does "v1" come from?
-    #
-    # grep LIBPOSTAL_DATA_DIR_VERSION_STRING configure*
-    #
-    # Also LIBPOSTAL_SENZING_DATA_DIR_VERSION_STRING
-    echo v1 > ${vfile}
-done
+#
+# Where does "v1" come from?
+#
+# grep LIBPOSTAL_DATA_DIR_VERSION_STRING configure*
+#
+# Also LIBPOSTAL_SENZING_DATA_DIR_VERSION_STRING
+echo v1 > ${PREFIX}/share/libpostal_data/libpostal/data_version
+
 for vf in base_data_file_version \
-	      parser_model_file_version \
-	      language_classifier_model_file_version ; do
+	  parser_model_file_version \
+	  language_classifier_model_file_version ; do
     vfile=${PREFIX}/share/libpostal_data/libpostal/${vf}
     # v1.0.0 is the recipe's package.version
     echo v1.0.0 > ${vfile}
