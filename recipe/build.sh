@@ -4,9 +4,10 @@ set -eu
 
 ./bootstrap.sh
 
-# We have pre-downloaded the data files.  bin/libpostal_data will
-# update these files if necessary which you can verify by removing the
-# --disable-data-download from configure, below.
+# We have pre-downloaded the data files.  If bin/libpostal_data is run
+# during the build it will update these files if necessary which you
+# can verify by removing the --disable-data-download from configure,
+# below.
 
 mkdir -p ${PREFIX}/share/libpostal_data
 mv __upstream/share/libpostal_data/libpostal ${PREFIX}/share/libpostal_data
@@ -15,7 +16,10 @@ mv __upstream/share/libpostal_data/libpostal ${PREFIX}/share/libpostal_data
 # libpostal data
 for vf in data_version ; do
     vfile=${PREFIX}/share/libpostal_data/libpostal/${vf}
-    # Where does "v1" come from?  grep LIBPOSTAL_DATA_DIR_VERSION_STRING configure*
+    # Where does "v1" come from?
+    #
+    # grep LIBPOSTAL_DATA_DIR_VERSION_STRING configure*
+    #
     # Also LIBPOSTAL_SENZING_DATA_DIR_VERSION_STRING
     echo v1 > ${vfile}
 done

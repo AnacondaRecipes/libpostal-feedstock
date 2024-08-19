@@ -27,7 +27,8 @@ source:
 build:
   number: 1
   # no conda-based autoconf on Windows
-  skip: True  # [win]
+  # s390x fails some parser tests
+  skip: True  # [win or s390x]
 
 requirements:
   build:
